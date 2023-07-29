@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "510894804982",
+    "project_id": "abdan-cell",
+    "storage_bucket": "abdan-cell.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510894804982:android:2103abeb2de112d6f281d7",
+        "android_client_info": {
+          "package_name": "com.example.abdancell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510894804982-vv06qb4oqpc49tq3ogq89m36v2b8j8hp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.abdancell",
+            "certificate_hash": "6b4f47aef394265d1aadaae99ecadfc04159d730"
+          }
+        },
+        {
+          "client_id": "510894804982-s5g08fjk8b3258kkuugs07j3vtrsum3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzZVzyOUa4f59NdybEvnf9gS8QJOH3TnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510894804982-s5g08fjk8b3258kkuugs07j3vtrsum3t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Abdan Cell</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="voucher">Voucher</string>
+    <string name="pulsa">Pulsa</string>
+    <string name="perdana">Perdana</string>
+    <string name="ewallet">E-Wallet</string>
+    <string name="aksesoris">Aksesoris</string>
+
+    <string name="editNamaProduk">Ubah Nama</string>
+    <string name="editHargaModal">Ubah Harga Modal</string>
+    <string name="editHargaJual">Ubah Harga Jual</string>
+    <string name="editKategori">Ubah Kategori</string>
+</resources>

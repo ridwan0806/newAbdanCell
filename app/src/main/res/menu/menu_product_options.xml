@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/editNama"
+        android:title="@string/editNamaProduk" />
+    <item
+        android:id="@+id/editHPP"
+        android:title="@string/editHargaModal" />
+    <item
+        android:id="@+id/editHargaJual"
+        android:title="@string/editHargaJual" />
+    <item
+        android:id="@+id/editKategori"
+        android:title="@string/editKategori" />
+</menu>

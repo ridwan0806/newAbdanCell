@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_voucher"
+        android:title="@string/voucher" />
+    <item
+        android:id="@+id/menu_pulsa"
+        android:title="@string/pulsa" />
+    <item
+        android:id="@+id/menu_perdana"
+        android:title="@string/perdana" />
+    <item
+        android:id="@+id/menu_ewallet"
+        android:title="@string/ewallet" />
+    <item
+        android:id="@+id/menu_aksesoris"
+        android:title="@string/aksesoris" />
+</menu>
