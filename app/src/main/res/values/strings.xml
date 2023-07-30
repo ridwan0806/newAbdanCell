@@ -3,6 +3,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="header_cart">Daftar Item Penjualan Harian</string>
+    <string name="subtotalprice_cart">Total Setoran :</string>
+    <string name="subtotalqty_cart">Total Qty :</string>
+
     <string name="voucher">Voucher</string>
     <string name="pulsa">Pulsa</string>
     <string name="perdana">Perdana</string>

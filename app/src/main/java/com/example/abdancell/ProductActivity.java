@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -100,6 +101,11 @@ public class ProductActivity extends AppCompatActivity {
 
         addProduct.setOnClickListener(view -> {
             addProductDialog();
+        });
+
+        viewCart.setOnClickListener(view -> {
+            Intent cart = new Intent(ProductActivity.this,CartActivity.class);
+            startActivity(cart);
         });
     }
 

@@ -1,5 +1,6 @@
 package com.example.abdancell.Helper;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +10,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.example.abdancell.Model.OrderItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -85,5 +89,47 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_SUBTOTAL_SALES, orderItem.getSubtotalSales());
 
         db.insert(TABLE_NAME,null,cv);
+    }
+
+    @SuppressLint("Range")
+    public List<OrderItem> getAllOrderItems() {
+        List<OrderItem> itemList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                OrderItem order = new OrderItem();
+                order.setId(cursor.getString(cursor.getColumnIndex("id")));
+                order.setProductId(cursor.getString(cursor.getColumnIndex("productId")));
+                order.setProductName(cursor.getString(cursor.getColumnIndex("productName")));
+                order.setProductKategori(cursor.getString(cursor.getColumnIndex("productCategory")));
+                order.setQty(Integer.parseInt(cursor.getString(cursor.getColumnIndex("qty"))));
+                order.setHargaModal(Double.parseDouble(cursor.getString(cursor.getColumnIndex("hargaModal"))));
+                order.setHargaJual(Double.parseDouble(cursor.getString(cursor.getColumnIndex("hargaJual"))));
+                order.setSubtotalModal(Double.parseDouble(cursor.getString(cursor.getColumnIndex("subtotalModal"))));
+                order.setSubtotalMargin(Double.parseDouble(cursor.getString(cursor.getColumnIndex("subtotalMargin"))));
+                order.setSubtotalSales(Double.parseDouble(cursor.getString(cursor.getColumnIndex("subtotalSales"))));
+                itemList.add(order);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return itemList;
+    }
+
+    public void deleteAll(){
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME;
+        db.execSQL(query);
+    }
+
+    public void deleteItem(int id){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String query = "DELETE FROM OrderItem WHERE id="+id;
+        database.execSQL(query);
     }
 }

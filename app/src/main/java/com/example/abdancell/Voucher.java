@@ -248,7 +248,7 @@ public class Voucher extends Fragment {
                     AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
                     failed.setCancelable(false);
                     failed.setTitle("Error !");
-                    failed.setMessage(strProductName.toUpperCase(Locale.ROOT)+" sudah ada di daftar pesanan");
+                    failed.setMessage(strProductName.toUpperCase(Locale.ROOT)+" sudah ada di pesanan");
 
                     failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
