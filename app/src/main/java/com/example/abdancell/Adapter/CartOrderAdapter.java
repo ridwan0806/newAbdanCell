@@ -3,6 +3,7 @@ package com.example.abdancell.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.abdancell.CartActivity;
 import com.example.abdancell.Helper.DBHelper;
 import com.example.abdancell.Model.OrderItem;
 import com.example.abdancell.R;
@@ -43,6 +45,8 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
     @Override
     public void onBindViewHolder(@NonNull CartOrderAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         OrderItem list = orderItem.get(position);
+
+        String orderItemId = list.getId();
 
         int number = position + 1;
         holder.numberCount.setText(number+".");
@@ -76,6 +80,10 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
                     orderItem.remove(position);
                     notifyItemRemoved(position);
                     notifyDataSetChanged();
+
+                    Intent reload = new Intent(view.getContext(),CartActivity.class);
+                    view.getContext().startActivity(reload);
+
                     Toast.makeText(context, ""+list.getProductName()+" berhasil dihapus", Toast.LENGTH_SHORT).show();
                 }
             });
