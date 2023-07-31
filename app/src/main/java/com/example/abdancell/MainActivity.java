@@ -5,12 +5,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,16 +28,20 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
     private EditText name,email,password;
     FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
 
-    private TextView username;
+    private TextView username, tvStartDate,tvEndDate;
 
     FirebaseUser firebaseUser;
 //    DatabaseReference root,dbUser;
     String userId;
+
+    String startDate,endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +69,17 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         ConstraintLayout product = findViewById(R.id.ic_product);
+        ConstraintLayout sales = findViewById(R.id.ic_pesanan);
         ConstraintLayout user = findViewById(R.id.ic_user);
         ConstraintLayout logout = findViewById(R.id.ic_logout);
 
         product.setOnClickListener(view -> {
             Intent productPage = new Intent(MainActivity.this,ProductActivity.class);
             startActivity(productPage);
+        });
+
+        sales.setOnClickListener(view -> {
+            filterOrderDate();
         });
 
         user.setOnClickListener(view -> {
@@ -80,6 +92,99 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         });
+    }
+
+    private void filterOrderDate() {
+        AlertDialog.Builder filterDate = new AlertDialog.Builder(this);
+        filterDate.setCancelable(false);
+        filterDate.setMessage("Tentukan Tanggal Penjualan");
+
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        View layout = layoutInflater.inflate(R.layout.dialog_filter_order_date,null);
+        filterDate.setView(layout);
+
+        tvStartDate = layout.findViewById(R.id.tvRekapStartDate);
+        tvEndDate = layout.findViewById(R.id.tvRekapEndDate);
+
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        tvStartDate.setOnClickListener(view -> {
+            DatePickerDialog dialogDateStart = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    month = month + 1;
+
+                    String monthString = "";
+                    if (month < 10){
+                        monthString = "0"+month;
+                    } else {
+                        monthString = String.valueOf(month);
+                    }
+
+                    String dayString = "";
+                    if (day < 10){
+                        dayString = "0"+day;
+                    } else {
+                        dayString = String.valueOf(day);
+                    }
+
+                    tvStartDate.setText(year+"-"+monthString+"-"+dayString);
+                    startDate = tvStartDate.getText().toString();
+//                    Log.d("TAG",startDate);
+                }
+            },year, month, day);
+            dialogDateStart.show();
+        });
+
+        tvEndDate.setOnClickListener(view -> {
+            DatePickerDialog dialogDateEnd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    month = month + 1;
+
+                    String monthString = "";
+                    if (month < 10){
+                        monthString = "0"+month;
+                    } else {
+                        monthString = String.valueOf(month);
+                    }
+
+                    String dayString = "";
+                    if (day < 10){
+                        dayString = "0"+day;
+                    } else {
+                        dayString = String.valueOf(day);
+                    }
+
+                    tvEndDate.setText(year+"-"+monthString+"-"+dayString);
+                    endDate = tvEndDate.getText().toString();
+//                    Log.d("TAG",endDate);
+                }
+            },year, month, day);
+            dialogDateEnd.show();
+        });
+
+        filterDate.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        filterDate.setPositiveButton("Cari", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent rekapPenjualan = new Intent(MainActivity.this,RekapPenjualan.class);
+                rekapPenjualan.putExtra("startDate",startDate);
+                rekapPenjualan.putExtra("endDate",endDate);
+                startActivity(rekapPenjualan);
+            }
+        });
+
+        filterDate.show();
     }
 
     private void createNewUser() {

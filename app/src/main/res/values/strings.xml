@@ -7,6 +7,12 @@
     <string name="subtotalprice_cart">Total Setoran :</string>
     <string name="subtotalqty_cart">Total Qty :</string>
 
+    <string name="subtotalHPP">Total HPP :</string>
+    <string name="subtotalMargin">Total Margin :</string>
+
+    <string name="dateFrom">Dari Tanggal :</string>
+    <string name="dateEnd">Sampai Tanggal :</string>
+
     <string name="voucher">Voucher</string>
     <string name="pulsa">Pulsa</string>
     <string name="perdana">Perdana</string>

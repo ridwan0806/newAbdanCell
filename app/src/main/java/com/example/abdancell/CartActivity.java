@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -138,7 +139,7 @@ public class CartActivity extends AppCompatActivity {
 
                     tvSelectDate.setText(year+"-"+monthString+"-"+dayString);
                     orderDate = tvSelectDate.getText().toString();
-                    Log.d("TAG",orderDate);
+//                    Log.d("TAG",orderDate);
                 }
             }, year, month, day);
             dateInput.show();
@@ -254,7 +255,8 @@ public class CartActivity extends AppCompatActivity {
                                 order.setOrderItem(orderItems);
                                 dbOrder.child(orderDate).child("orderItem").setValue(orderItems);
                             }
-
+                            Intent home = new Intent(CartActivity.this,MainActivity.class);
+                            startActivity(home);
                             Toast.makeText(CartActivity.this, "Data penjualan berhasil disimpan", Toast.LENGTH_SHORT).show();
                         }
 
