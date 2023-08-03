@@ -1,6 +1,7 @@
 package com.example.abdancell;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.abdancell.Helper.DBHelper;
+import com.example.abdancell.Helper.MoneyTextWatcher;
 import com.example.abdancell.Interface.ItemClickListener;
 import com.example.abdancell.Model.OrderItem;
 import com.example.abdancell.Model.Product;
@@ -34,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -56,6 +60,8 @@ public class Voucher extends Fragment {
     ImageView plusBtn,minusBtn;
     TextView qty;
     int numberOrder = 1;
+
+    EditText etProductName,etProductHPP,etProductPrice;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -160,13 +166,85 @@ public class Voucher extends Fragment {
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             int itemId = menuItem.getItemId();
                             if (itemId == R.id.editNama){
-                                Toast.makeText(getContext(), "editNama", Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder confirm = new AlertDialog.Builder(getContext());
+                                confirm.setCancelable(false);
+                                confirm.setMessage("Ubah Nama Produk ?");
+
+                                confirm.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+
+                                confirm.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        editProductName(productId,strProductName);
+                                    }
+                                });
+
+                                confirm.show();
                             } else if (itemId == R.id.editHPP){
-                                Toast.makeText(getContext(), "editNama", Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder confirm = new AlertDialog.Builder(getContext());
+                                confirm.setCancelable(false);
+                                confirm.setMessage("Ubah Harga Modal ?");
+
+                                confirm.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+
+                                confirm.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        editHargaModal(productId,strProductName,strHargaModal);
+                                    }
+                                });
+
+                                confirm.show();
                             } else if (itemId == R.id.editHargaJual){
-                                Toast.makeText(getContext(), "editNama", Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder confirm = new AlertDialog.Builder(getContext());
+                                confirm.setCancelable(false);
+                                confirm.setMessage("Ubah Harga Jual ?");
+
+                                confirm.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+
+                                confirm.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        editHargaJual(productId,strProductName,strHargaJual);
+                                    }
+                                });
+
+                                confirm.show();
                             } else if (itemId == R.id.editKategori){
-                                Toast.makeText(getContext(), "editNama", Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder confirm = new AlertDialog.Builder(getContext());
+                                confirm.setCancelable(false);
+                                confirm.setMessage("Hapus "+strProductName.toUpperCase(Locale.ROOT)+ " dari database ?");
+
+                                confirm.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                
+                                confirm.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        deleteProduct(productId,strProductName);
+                                    }
+                                });
+                                
+                                confirm.show();
                             }
                             return true;
                         }
@@ -198,6 +276,186 @@ public class Voucher extends Fragment {
         };
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+    }
+
+    private void deleteProduct(String productId, String strProductName) {
+        dbProduct.child(productId).removeValue();
+        Toast.makeText(getContext(), strProductName+" berhasil dihapus", Toast.LENGTH_SHORT).show();
+    }
+
+    private void editProductName(String productId, String strProductName) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setCancelable(false);
+        dialog.setMessage("Ubah nama "+strProductName.toUpperCase(Locale.ROOT)+" ?");
+
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        View dialogEditName = layoutInflater.inflate(R.layout.dialog_edit_nama_produk,null);
+        dialog.setView(dialogEditName);
+
+        etProductName = dialogEditName.findViewById(R.id.etProductEditName);
+
+        dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        dialog.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (etProductName.getText().toString().length() == 0){
+                    AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
+                    failed.setCancelable(false);
+                    failed.setTitle("Error !");
+                    failed.setMessage("Nama produk belum diisi");
+
+                    failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            editProductName(productId, strProductName);
+                        }
+                    });
+                    failed.show();
+                } else {
+                    dbProduct.child(productId).child("name").setValue(etProductName.getText().toString());
+                    Toast.makeText(getContext(), "nama produk berhasil diubah", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void editHargaModal(String productId, String strProductName,String strHargaModal) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setCancelable(false);
+        dialog.setMessage("Ubah modal  "+strProductName.toUpperCase(Locale.ROOT)+" ?");
+
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        View dialogEditPrice = layoutInflater.inflate(R.layout.dialog_edit_modal,null);
+        dialog.setView(dialogEditPrice);
+
+        etProductHPP = dialogEditPrice.findViewById(R.id.etProductEditHPP);
+        etProductHPP.addTextChangedListener(new MoneyTextWatcher(etProductHPP));
+
+        dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        dialog.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                BigDecimal value = MoneyTextWatcher.parseCurrencyValue(etProductHPP.getText().toString());
+                String newModal = String.valueOf(value);
+
+                if (Double.parseDouble(strHargaModal) == Double.parseDouble(newModal)){
+                    AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
+                    failed.setCancelable(false);
+                    failed.setTitle("Error !");
+                    failed.setMessage("Harga modal masih sama");
+
+                    failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            editHargaModal(productId, strProductName,strHargaModal);
+                        }
+                    });
+                    failed.show();
+                } else {
+                    if (etProductHPP.getText().toString().length() == 0){
+                        AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
+                        failed.setCancelable(false);
+                        failed.setTitle("Error !");
+                        failed.setMessage("Harga modal belum diisi");
+
+                        failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                editHargaModal(productId, strProductName,strHargaModal);
+                            }
+                        });
+                        failed.show();
+                    } else {
+                        dbProduct.child(productId).child("hargaModal").setValue(Double.parseDouble(newModal));
+                        Toast.makeText(getContext(), "Harga modal berhasil diubah", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void editHargaJual(String productId, String strProductName,String strHargaJual) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setCancelable(false);
+        dialog.setMessage("Ubah Harga Jual  "+strProductName.toUpperCase(Locale.ROOT)+" ?");
+
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        View dialogEditPrice = layoutInflater.inflate(R.layout.dialog_edit_harga_jual,null);
+        dialog.setView(dialogEditPrice);
+
+        etProductPrice = dialogEditPrice.findViewById(R.id.etProductEditHargaJual);
+        etProductPrice.addTextChangedListener(new MoneyTextWatcher(etProductPrice));
+
+        dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        dialog.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                BigDecimal value = MoneyTextWatcher.parseCurrencyValue(etProductPrice.getText().toString());
+                String newPrice = String.valueOf(value);
+
+                if (Double.parseDouble(strHargaJual) == Double.parseDouble(newPrice)){
+                    AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
+                    failed.setCancelable(false);
+                    failed.setTitle("Error !");
+                    failed.setMessage("Harga jual masih sama");
+
+                    failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            editHargaJual(productId, strProductName,strHargaJual);
+                        }
+                    });
+                    failed.show();
+                } else {
+                    if (etProductPrice.getText().toString().length() == 0){
+                        AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
+                        failed.setCancelable(false);
+                        failed.setTitle("Error !");
+                        failed.setMessage("Harga jual belum diisi");
+
+                        failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                editHargaModal(productId, strProductName,strHargaJual);
+                            }
+                        });
+                        failed.show();
+                    } else {
+                        dbProduct.child(productId).child("hargaJual").setValue(Double.parseDouble(newPrice));
+                        Toast.makeText(getContext(), "Harga jual berhasil diubah", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        dialog.show();
     }
 
     private void addQty(String productId, String strProductName, String strHargaModal, String strHargaJual, String strKategori) {
@@ -247,39 +505,55 @@ public class Voucher extends Fragment {
                 if (result == 0){
                     AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
                     failed.setCancelable(false);
-                    failed.setTitle("Error !");
-                    failed.setMessage(strProductName.toUpperCase(Locale.ROOT)+" sudah ada di pesanan");
+                    failed.setTitle("Info !");
+                    failed.setMessage(strProductName.toUpperCase(Locale.ROOT)+" sudah ada di pesanan. Tetap lanjutkan pesanan ?");
 
-                    failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    failed.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
+                            Toast.makeText(getContext(), strProductName.toUpperCase(Locale.ROOT)+" dibatalkan", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    failed.setPositiveButton("Ya, Lanjutkan", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            submitItem(productId,strProductName,strKategori,strHargaModal,strHargaJual);
                         }
                     });
                     failed.show();
                 } else {
-                    Double totalModal = Double.parseDouble(strHargaModal) * numberOrder;
-                    Double totalSales = Double.parseDouble(strHargaJual) * numberOrder;
-                    Double margin = totalSales - totalModal;
-
-                    dbHelper.addToCart(new OrderItem(
-                        "",
-                        productId,
-                        strProductName,
-                        strKategori,
-                        numberOrder,
-                        Double.parseDouble(strHargaModal),
-                        Double.parseDouble(strHargaJual),
-                        totalModal,
-                        margin,
-                        totalSales
-                    ));
-                    Toast.makeText(getContext(), strProductName.toUpperCase(Locale.ROOT)+" berhasil diinput", Toast.LENGTH_SHORT).show();
-                    numberOrder = 1;
+                    submitItem(productId,strProductName,strKategori,strHargaModal,strHargaJual);
                 }
             }
         });
 
         addQty.show();
+    }
+
+    private void submitItem(String productId, String strProductName, String strKategori, String strHargaModal, String strHargaJual) {
+        Double totalModal = Double.parseDouble(strHargaModal) * numberOrder;
+        Double totalSales = Double.parseDouble(strHargaJual) * numberOrder;
+        Double margin = totalSales - totalModal;
+
+        DBHelper dbHelper = new DBHelper(getContext());
+        dbHelper.addToCart(new OrderItem(
+                "",
+                productId,
+                strProductName,
+                strKategori,
+                numberOrder,
+                Double.parseDouble(strHargaModal),
+                Double.parseDouble(strHargaJual),
+                totalModal,
+                margin,
+                totalSales
+        ));
+        Toast.makeText(getContext(), strProductName.toUpperCase(Locale.ROOT)+" berhasil diinput", Toast.LENGTH_SHORT).show();
+        numberOrder = 1;
+
+        Intent cart = new Intent(getContext(),CartActivity.class);
+        startActivity(cart);
     }
 }

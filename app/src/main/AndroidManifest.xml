@@ -12,6 +12,9 @@
         android:theme="@style/Theme.AbdanCell"
         tools:targetApi="31">
         <activity
+            android:name=".RekapOrderItem"
+            android:exported="false" />
+        <activity
             android:name=".RekapPenjualan"
             android:exported="false" />
         <activity

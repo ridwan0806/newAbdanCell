@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txtCartOrderNoUrut"
+            android:id="@+id/txtOrderItemNoUrut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txtCartOrderName"
+            android:id="@+id/txtOrderItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -42,7 +42,7 @@
             android:textColor="@color/blue"
             android:textSize="17sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/txtCartOrderNoUrut"
+            app:layout_constraintStart_toEndOf="@+id/txtOrderItemNoUrut"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -54,12 +54,12 @@
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/txtCartOrderName"
-            app:layout_constraintStart_toEndOf="@+id/txtCartOrderName"
-            app:layout_constraintTop_toTopOf="@+id/txtCartOrderName" />
+            app:layout_constraintBottom_toBottomOf="@+id/txtOrderItemName"
+            app:layout_constraintStart_toEndOf="@+id/txtOrderItemName"
+            app:layout_constraintTop_toTopOf="@+id/txtOrderItemName" />
 
         <TextView
-            android:id="@+id/txtCartOrderQty"
+            android:id="@+id/txtOrderItemQty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
@@ -68,7 +68,7 @@
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/txtCartOrderName"
+            app:layout_constraintBottom_toBottomOf="@+id/txtOrderItemName"
             app:layout_constraintStart_toEndOf="@+id/textView17" />
 
         <TextView
@@ -78,11 +78,11 @@
             android:layout_marginTop="8dp"
             android:text="Harga Jual :"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/txtCartOrderName"
-            app:layout_constraintTop_toBottomOf="@+id/txtCartOrderName" />
+            app:layout_constraintStart_toStartOf="@+id/txtOrderItemName"
+            app:layout_constraintTop_toBottomOf="@+id/txtOrderItemName" />
 
         <TextView
-            android:id="@+id/txtCartOrderPrice"
+            android:id="@+id/txtOrderItemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -102,7 +102,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
         <TextView
-            android:id="@+id/txtCartOrderSubtotal"
+            android:id="@+id/txtOrderItemSubtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10.000"
@@ -110,7 +110,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView21"
-            app:layout_constraintStart_toStartOf="@+id/txtCartOrderPrice"
+            app:layout_constraintStart_toStartOf="@+id/txtOrderItemPrice"
             app:layout_constraintTop_toTopOf="@+id/textView21" />
 
         <TextView
@@ -125,24 +125,15 @@
             app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
         <TextView
-            android:id="@+id/txtCartOrderKategori"
+            android:id="@+id/txtOrderItemKategori"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textColor="@color/blue"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView16"
-            app:layout_constraintStart_toStartOf="@+id/txtCartOrderSubtotal"
+            app:layout_constraintStart_toStartOf="@+id/txtOrderItemSubtotal"
             app:layout_constraintTop_toTopOf="@+id/textView16" />
 
-        <ImageView
-            android:id="@+id/imgMenuCartOrder"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_delete_blue24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

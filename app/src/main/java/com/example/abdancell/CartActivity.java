@@ -57,7 +57,8 @@ public class CartActivity extends AppCompatActivity {
     TextView tvSelectDate;
     EditText orderNotes;
 
-    String userId, userName, orderDate;
+    String userId, userName;
+    String orderDate = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +157,7 @@ public class CartActivity extends AppCompatActivity {
         confirm.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (tvSelectDate.getText().equals("--PILIH TANGGAL--")){
+                if (orderDate == ""){
                     AlertDialog.Builder failed = new AlertDialog.Builder(CartActivity.this);
                     failed.setCancelable(false);
                     failed.setTitle("Error !");
@@ -170,8 +171,9 @@ public class CartActivity extends AppCompatActivity {
                         }
                     });
                     failed.show();
+                } else {
+                    saveOrder(orderDate);
                 }
-                saveOrder(orderDate);
             }
         });
 
@@ -183,13 +185,11 @@ public class CartActivity extends AppCompatActivity {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Log.d("Tag", String.valueOf(snapshot));
                 if (snapshot.exists()){
                     AlertDialog.Builder dateIsExists = new AlertDialog.Builder(CartActivity.this);
                     dateIsExists.setCancelable(false);
                     dateIsExists.setTitle("Error !");
                     dateIsExists.setMessage("Transaksi pada tanggal ini sudah diinput");
-//                    Log.d("TAG",orderDate);
 
                     dateIsExists.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -201,7 +201,6 @@ public class CartActivity extends AppCompatActivity {
 
                     dateIsExists.show();
                 } else {
-//                    Toast.makeText(CartActivity.this, "lanjut", Toast.LENGTH_SHORT).show();
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
                     reference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -255,6 +254,9 @@ public class CartActivity extends AppCompatActivity {
                                 order.setOrderItem(orderItems);
                                 dbOrder.child(orderDate).child("orderItem").setValue(orderItems);
                             }
+
+                            //clean cart
+                            new DBHelper(getBaseContext()).deleteAll();
                             Intent home = new Intent(CartActivity.this,MainActivity.class);
                             startActivity(home);
                             Toast.makeText(CartActivity.this, "Data penjualan berhasil disimpan", Toast.LENGTH_SHORT).show();

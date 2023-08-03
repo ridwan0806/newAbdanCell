@@ -59,6 +59,7 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
         holder.qty.setText(String.valueOf(list.getQty()));
         holder.price.setText(formatRp.format(price));
         holder.subtotal.setText(formatRp.format(subtotal));
+        holder.category.setText(list.getProductKategori());
 
         holder.menu.setOnClickListener(view -> {
             AlertDialog.Builder confirmDelete = new AlertDialog.Builder(context);
@@ -99,7 +100,7 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView productName,qty,price,subtotal,numberCount;
+        TextView productName,qty,price,subtotal,numberCount,category;
         ImageView menu;
 
         public ViewHolder(@NonNull View itemView) {
@@ -110,6 +111,7 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
             subtotal = itemView.findViewById(R.id.txtCartOrderSubtotal);
             menu = itemView.findViewById(R.id.imgMenuCartOrder);
             numberCount = itemView.findViewById(R.id.txtCartOrderNoUrut);
+            category = itemView.findViewById(R.id.txtCartOrderKategori);
         }
     }
 }

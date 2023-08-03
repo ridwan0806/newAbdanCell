@@ -22,5 +22,5 @@
     <string name="editNamaProduk">Ubah Nama</string>
     <string name="editHargaModal">Ubah Harga Modal</string>
     <string name="editHargaJual">Ubah Harga Jual</string>
-    <string name="editKategori">Ubah Kategori</string>
+    <string name="editKategori">Hapus Produk</string>
 </resources>

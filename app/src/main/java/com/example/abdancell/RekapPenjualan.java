@@ -5,17 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.abdancell.Interface.ItemClickListener;
 import com.example.abdancell.Model.Order;
-import com.example.abdancell.Model.Product;
 import com.example.abdancell.ViewHolder.Order.VHListOrder;
-import com.example.abdancell.ViewHolder.Product.VHProduct;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +39,8 @@ public class RekapPenjualan extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseRecyclerAdapter<Order, VHListOrder> adapter;
 
+    TextView tvDateStart,tvDateEnd,tvTotalHPP,tvTotalMargin,tvTotalSetoran;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,12 @@ public class RekapPenjualan extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         progressBar = findViewById(R.id.pbRekapOrder);
 
+        tvDateStart = findViewById(R.id.txtRekapDateStart);
+        tvDateEnd = findViewById(R.id.txtRekapDateEnd);
+        tvTotalHPP = findViewById(R.id.txtRekapTotalHPP);
+        tvTotalMargin = findViewById(R.id.txtRekapTotalMargin);
+        tvTotalSetoran = findViewById(R.id.txtRekapTotalSales);
+
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         dbOrder = root.child("Orders");
 
@@ -55,6 +64,9 @@ public class RekapPenjualan extends AppCompatActivity {
             startDate = getIntent().getStringExtra("startDate");
             endDate = getIntent().getStringExtra("endDate");
             getRekapPenjualan(startDate,endDate);
+            calculateAll(startDate,endDate);
+            tvDateStart.setText(startDate);
+            tvDateEnd.setText((endDate));
         }
     }
 
@@ -66,6 +78,8 @@ public class RekapPenjualan extends AppCompatActivity {
         adapter = new FirebaseRecyclerAdapter<Order, VHListOrder>(list) {
             @Override
             protected void onBindViewHolder(@NonNull VHListOrder holder, int position, @NonNull Order model) {
+                String orderId = adapter.getRef(position).getKey();
+
                 NumberFormat formatRp = new DecimalFormat("#,###");
                 double totHPP = model.getSubtotalHPP();
                 double totMargin = model.getSubtotalMargin();
@@ -75,6 +89,15 @@ public class RekapPenjualan extends AppCompatActivity {
                 holder.orderSubtotalHPP.setText("Rp "+formatRp.format(totHPP));
                 holder.orderSubtotalMargin.setText("Rp "+formatRp.format(totMargin));
                 holder.orderSubtotalSetoran.setText("Rp "+formatRp.format(totSetoran));
+
+                holder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+                        Intent detail = new Intent(RekapPenjualan.this,RekapOrderItem.class);
+                        detail.putExtra("orderId",orderId);
+                        startActivity(detail);
+                    }
+                });
             }
 
             @NonNull
@@ -93,19 +116,37 @@ public class RekapPenjualan extends AppCompatActivity {
         };
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+    }
 
-//        Query listOrders = dbOrder.orderByKey().startAt(startDate).endAt(endDate);
-//        ValueEventListener listener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Log.d("TAG", String.valueOf(snapshot));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                throw error.toException();
-//            }
-//        };
-//        listOrders.addListenerForSingleValueEvent(listener);
+    private void calculateAll(String startDate, String endDate) {
+        Query db = dbOrder.orderByKey().startAt(startDate).endAt(endDate);
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                NumberFormat formatRp = new DecimalFormat("#,###");
+                double totHPP = 0;
+                double totMargin = 0;
+                double totSetoran = 0;
+
+                for (DataSnapshot ds:snapshot.getChildren()){
+                    double hpp = Double.valueOf(ds.child("subtotalHPP").getValue(long.class));
+                    double margin = Double.valueOf(ds.child("subtotalMargin").getValue(long.class));
+                    double setoran = Double.valueOf(ds.child("subtotalSales").getValue(long.class));
+
+                    totHPP = totHPP + hpp;
+                    totMargin = totMargin + margin;
+                    totSetoran = totSetoran + setoran;
+                }
+                tvTotalHPP.setText(formatRp.format(totHPP));
+                tvTotalMargin.setText(formatRp.format(totMargin));
+                tvTotalSetoran.setText(formatRp.format(totSetoran));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+        };
+        db.addListenerForSingleValueEvent(listener);
     }
 }

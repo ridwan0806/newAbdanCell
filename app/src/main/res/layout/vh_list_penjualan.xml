@@ -78,6 +78,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="Setoran :"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -88,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:text="TextView"
-            android:textColor="@color/blue"
+            android:textColor="@color/design_default_color_error"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView6"

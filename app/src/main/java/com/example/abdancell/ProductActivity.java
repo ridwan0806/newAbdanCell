@@ -162,7 +162,7 @@ public class ProductActivity extends AppCompatActivity {
                         category.setText("Perdana");
                     } else if (itemId == R.id.menu_ewallet){
                         categoryProduct = "E-Wallet";
-                        category.setText("Wallet");
+                        category.setText("E-Wallet");
                     } else if (itemId == R.id.menu_aksesoris){
                         categoryProduct = "Aksesoris";
                         category.setText("Aksesoris");
@@ -211,7 +211,7 @@ public class ProductActivity extends AppCompatActivity {
                         }
                     });
                     failed.show();
-                } else if (hpp.getText().toString().length() == 0 || hpp.getText().equals("Rp 0")){
+                } else if (hpp.getText().toString().length() == 0){
                     AlertDialog.Builder failed = new AlertDialog.Builder(ProductActivity.this);
                     failed.setCancelable(false);
                     failed.setTitle("Error !");
@@ -225,11 +225,11 @@ public class ProductActivity extends AppCompatActivity {
                         }
                     });
                     failed.show();
-                } else if (price.getText().toString().length() == 0 || price.getText().equals("Rp 0")){
+                } else if (price.getText().toString().length() == 0){
                     AlertDialog.Builder failed = new AlertDialog.Builder(ProductActivity.this);
                     failed.setCancelable(false);
                     failed.setTitle("Error !");
-                    failed.setMessage("Harga Beli belum disetting");
+                    failed.setMessage("Harga Jual belum disetting");
 
                     failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
