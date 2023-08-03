@@ -13,7 +13,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22000003">
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Silahkan Login"
+            android:textSize="16sp"
+            android:textColor="@color/blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout6"
@@ -24,9 +36,12 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             app:helperText="Masukan Email"
+            app:endIconMode="clear_text"
+            app:counterMaxLength="30"
+            app:counterEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/textView20">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etLoginEmail"
@@ -43,6 +58,8 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
+            app:counterMaxLength="30"
+            app:counterEnabled="true"
             app:endIconMode="password_toggle"
             app:helperText="Masukan Password"
             app:layout_constraintEnd_toEndOf="parent"
