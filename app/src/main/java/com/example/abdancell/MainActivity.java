@@ -73,6 +73,28 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout user = findViewById(R.id.ic_user);
         ConstraintLayout logout = findViewById(R.id.ic_logout);
 
+        //not used
+        ConstraintLayout pengeluaran = findViewById(R.id.ic_cost);
+        ConstraintLayout informasi = findViewById(R.id.ic_information);
+        ConstraintLayout kasir = findViewById(R.id.ic_cashier);
+        ConstraintLayout report = findViewById(R.id.ic_report);
+
+        pengeluaran.setOnClickListener(view -> {
+            Toast.makeText(this, "fitur ini belum siap", Toast.LENGTH_SHORT).show();
+        });
+
+        informasi.setOnClickListener(view -> {
+            Toast.makeText(this, "fitur ini belum siap", Toast.LENGTH_SHORT).show();
+        });
+
+        kasir.setOnClickListener(view -> {
+            Toast.makeText(this, "fitur ini belum siap", Toast.LENGTH_SHORT).show();
+        });
+
+        report.setOnClickListener(view -> {
+            Toast.makeText(this, "fitur ini belum siap", Toast.LENGTH_SHORT).show();
+        });
+
         product.setOnClickListener(view -> {
             Intent productPage = new Intent(MainActivity.this,ProductActivity.class);
             startActivity(productPage);
@@ -87,11 +109,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
         logout.setOnClickListener(view -> {
-            FirebaseAuth.getInstance().signOut();
-            Intent i = new Intent(MainActivity.this,LoginActivity.class);
-            startActivity(i);
-            finish();
+            AlertDialog.Builder confirm = new AlertDialog.Builder(this);
+            confirm.setTitle("Logout ?");
+            confirm.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            confirm.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent logout = new Intent(MainActivity.this,LoginActivity.class);
+                    startActivity(logout);
+                    finish();
+                }
+            });
+            confirm.show();
         });
+
     }
 
     private void filterOrderDate() {

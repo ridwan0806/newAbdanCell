@@ -67,6 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Abdan Cell Apps"
+                    android:textAllCaps="true"
                     android:textColor="#ffffff"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -339,6 +340,7 @@
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
+                            android:id="@+id/ic_report"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center">
 
