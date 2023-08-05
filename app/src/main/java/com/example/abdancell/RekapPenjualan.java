@@ -137,9 +137,9 @@ public class RekapPenjualan extends AppCompatActivity {
                     totMargin = totMargin + margin;
                     totSetoran = totSetoran + setoran;
                 }
-                tvTotalHPP.setText(formatRp.format(totHPP));
-                tvTotalMargin.setText(formatRp.format(totMargin));
-                tvTotalSetoran.setText(formatRp.format(totSetoran));
+                tvTotalHPP.setText("Rp "+formatRp.format(totHPP));
+                tvTotalMargin.setText("Rp "+formatRp.format(totMargin));
+                tvTotalSetoran.setText("Rp "+formatRp.format(totSetoran));
             }
 
             @Override
