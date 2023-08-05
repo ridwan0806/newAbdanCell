@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
 //    DatabaseReference root,dbUser;
     String userId;
 
-    String startDate,endDate;
+    String startDate = "";
+    String endDate = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        root = FirebaseDatabase.getInstance().getReference();
 
         username = findViewById(R.id.txtUsername);
 
@@ -215,10 +215,40 @@ public class MainActivity extends AppCompatActivity {
         filterDate.setPositiveButton("Cari", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent rekapPenjualan = new Intent(MainActivity.this,RekapPenjualan.class);
-                rekapPenjualan.putExtra("startDate",startDate);
-                rekapPenjualan.putExtra("endDate",endDate);
-                startActivity(rekapPenjualan);
+                if (startDate == ""){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Error !");
+                    builder.setMessage("Tanggal mulai belum dipilih");
+
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            filterOrderDate();
+                        }
+                    });
+                    builder.show();
+                } else if (endDate == ""){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Error !");
+                    builder.setMessage("Tanggal akhir belum dipilih");
+
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            filterOrderDate();
+                        }
+                    });
+                    builder.show();
+                } else {
+                    Intent rekapPenjualan = new Intent(MainActivity.this,RekapPenjualan.class);
+                    rekapPenjualan.putExtra("startDate",startDate);
+                    rekapPenjualan.putExtra("endDate",endDate);
+                    startActivity(rekapPenjualan);
+                }
             }
         });
 
