@@ -24,6 +24,7 @@
                 android:layout_marginBottom="24dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Daftar Semua Produk"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold"
@@ -64,15 +65,15 @@
                     android:id="@+id/btnViewOrder"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="center"
-                    android:background="@drawable/bg_button_blue"
-                    android:textColor="@color/white"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:drawableEnd="@drawable/ic_cart_24_white"
-                    android:paddingEnd="15dp"
                     android:layout_weight="1"
-                    android:text="Lihat Pesanan" />
+                    android:background="@drawable/bg_button_blue"
+                    android:drawableEnd="@drawable/ic_cart_24_white"
+                    android:gravity="center"
+                    android:paddingEnd="15dp"
+                    android:text="Terjual Hari ini"
+                    android:textColor="@color/white" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -237,7 +237,7 @@ public class Pulsa extends Fragment {
                                     }
                                 });
 
-                                confirm.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
+                                confirm.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         deleteProduct(productId,strProductName);
@@ -455,7 +455,7 @@ public class Pulsa extends Fragment {
 
     private void deleteProduct(String productId, String strProductName) {
         dbProduct.child(productId).removeValue();
-        Toast.makeText(getContext(), strProductName+" berhasil dihapus", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), strProductName.toUpperCase(Locale.ROOT)+" berhasil dihapus", Toast.LENGTH_SHORT).show();
     }
 
     private void addQty(String productId, String strProductName, String strHargaModal, String strHargaJual, String strKategori) {
